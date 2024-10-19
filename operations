@@ -1,0 +1,39 @@
+public class BookStore {
+    private List<Book> inventory;
+
+    public BookStore() {
+        this.inventory = new ArrayList<>();
+    }
+
+    public void addBook(Book book) {
+        inventory.add(book);
+    }
+
+    public void removeBook(String ISBN) {
+        inventory.removeIf(book -> book.getISBN().equals(ISBN));
+    }
+
+    public void updateStock(String ISBN, int newStock) {
+        for (Book book : inventory) {
+            if (book.getISBN().equals(ISBN)) {
+                book.setStock(newStock);
+                break;
+            }
+        }
+    }
+
+    public Book searchBookByTitle(String title) {
+        return inventory.stream().filter(book -> book.getTitle().equalsIgnoreCase(title)).findFirst().orElse(null);
+    }
+
+    public List<Book> searchBooksByAuthor(String author) {
+        return inventory.stream().filter(book -> book.getAuthor().equalsIgnoreCase(author)).collect(Collectors.toList());
+    }
+
+    // Display all available books
+    public void displayBooks() {
+        for (Book book : inventory) {
+            System.out.println(book.getTitle() + " by " + book.getAuthor() + " - $" + book.getPrice());
+        }
+    }
+}
